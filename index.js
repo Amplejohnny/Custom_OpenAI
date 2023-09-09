@@ -1,4 +1,3 @@
-const e = require('express');
 const express = require('express');
 require('dotenv').config();
 const OpenAI = require("openai");
@@ -75,11 +74,12 @@ app.post("/api/v1/completion/ask", async (req, res) => {
       model: "text-davinci-003",
       prompt: prompt,
     });
-    const completion = JSON.parse(response.choices[0].text);
-    // const completion_parsed = JSON.stringify(completion)
+    const completion = response.choices[0].text;
+    // replace /n with ''
+    const completion_replaced = completion.replace(/\n/g, '');
     return res.status(200).json({
       success: true,
-      message: completion,
+      message: completion_replaced,
     });
   } catch (error) {
     console.log(error)
